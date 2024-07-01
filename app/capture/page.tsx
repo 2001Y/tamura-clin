@@ -11,6 +11,11 @@ export default function CapturePage() {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const router = useRouter();
 
+    const stopCamera = useCallback(() => {
+        stream?.getTracks().forEach(track => track.stop());
+        setStream(null);
+    }, [stream]);
+
     const startCamera = useCallback(async () => {
         try {
             const mediaStream = await navigator.mediaDevices.getUserMedia({
@@ -42,11 +47,6 @@ export default function CapturePage() {
         if (stream && videoRef.current) {
             videoRef.current.srcObject = stream;
         }
-    }, [stream]);
-
-    const stopCamera = useCallback(() => {
-        stream?.getTracks().forEach(track => track.stop());
-        setStream(null);
     }, [stream]);
 
     const captureImage = useCallback(() => {
