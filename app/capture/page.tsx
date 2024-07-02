@@ -73,13 +73,13 @@ export default function CapturePage() {
 
     return (
         <div>
-            <h1>診察券を撮影</h1>
+            <h1>診察券を撮影しましょう</h1>
             {stream ? (
                 <>
+                    <button onClick={() => { stopCamera(); router.push('/medical-card'); }}>キャンセル</button>
                     <video ref={videoRef} autoPlay playsInline muted style={{ width: '100%', maxWidth: '500px' }} />
                     <canvas ref={canvasRef} style={{ display: 'none' }} />
                     <button onClick={captureImage}>撮影</button>
-                    <button onClick={() => { stopCamera(); router.push('/medical-card'); }}>キャンセル</button>
                 </>
             ) : (
                 <p>カメラを起動中...</p>
