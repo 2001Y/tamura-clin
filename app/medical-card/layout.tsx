@@ -56,7 +56,7 @@ export default function MedicalCard({ children }: MedicalCardProps) {
 
     return (
         <div>
-            <Toaster />
+            <Toaster position="top-center" />
             <header>
                 <h1>診察券</h1>
             </header>
@@ -65,8 +65,8 @@ export default function MedicalCard({ children }: MedicalCardProps) {
                     <Image
                         src={cardImage}
                         alt="診察券"
-                        width={300}
-                        height={400}
+                        width={400}
+                        height={500}
                         style={{ objectFit: 'contain' }}
                         onError={() => toast.error('画像の表示に失敗しました')}
                     />

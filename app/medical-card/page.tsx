@@ -1,7 +1,7 @@
 'use client';
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { toast } from 'sonner';
+import { toast, Toaster } from 'sonner';
 
 const IMAGE_KEY = 'medical-card-image';
 
@@ -65,27 +65,27 @@ export default function CapturePage() {
                 const dataUrl = canvasRef.current.toDataURL('image/jpeg', 0.7);
                 localStorage.setItem(IMAGE_KEY, dataUrl);
                 toast.success('画像を保存しました');
-                stopCamera();
-                router.push('/medical-card');
+                window.location.reload();
             }
         }
     }, [stopCamera, router]);
 
     return (
         <div>
-            <h1>診察券の登録</h1>
-            <p>
-                当院の診察券の写真を撮影して下さい。
-            </p>
+            <Toaster position="top-center" />
             {stream ? (
                 <>
+                    <h1>診察券の登録</h1>
+                    <p>
+                        当院の診察券の写真を撮影して下さい。
+                    </p>
                     <video ref={videoRef} autoPlay playsInline muted style={{ width: '100%', maxWidth: '500px' }} />
                     <canvas ref={canvasRef} style={{ display: 'none' }} />
                     <button onClick={captureImage}>撮影</button>
                     <button className="cancel" onClick={() => { window.location.reload(); }}>キャンセル</button>
                 </>
             ) : (
-                <p>カメラを起動中...</p>
+                <h2>カメラを起動中...</h2>
             )}
         </div>
     );
