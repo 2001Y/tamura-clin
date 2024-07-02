@@ -22,11 +22,10 @@ export default function CapturePage() {
             const mediaStream = await navigator.mediaDevices.getUserMedia({
                 video: { facingMode: "environment" }
             });
-            setStream(mediaStream);
             if (videoRef.current) {
-                videoRef.current.srcObject = stream;
-                videoRef.current.play(); // ビデオの再生を明示的に開始
+                videoRef.current.srcObject = mediaStream;
             }
+            setStream(mediaStream);
 
             stopCameraRef.current = () => {
                 mediaStream.getTracks().forEach(track => track.stop());
@@ -36,16 +35,18 @@ export default function CapturePage() {
             try {
                 // 失敗した場合、制約なしで再試行
                 const mediaStream = await navigator.mediaDevices.getUserMedia({ video: true });
+                if (videoRef.current) {
+                    videoRef.current.srcObject = mediaStream;
+                }
                 setStream(mediaStream);
-                if (videoRef.current) videoRef.current.srcObject = mediaStream;
-                toast.warning('外カメラの起動に失敗しました。内カメラを使用します。（', err);
+                toast.warning(`外カメラの起動に失敗しました。内カメラを使用します。(${err.message})`);
 
                 stopCameraRef.current = () => {
                     mediaStream.getTracks().forEach(track => track.stop());
                     setStream(null);
                 };
             } catch (fallbackErr) {
-                toast.error('カメラの起動に失敗しました。ブラウザの設定を確認してください。（', fallbackErr);
+                toast.error(`カメラの起動に失敗しました。ブラウザの設定を確認してください。(${fallbackErr.message})`);
             }
         }
     }, []);
@@ -55,7 +56,7 @@ export default function CapturePage() {
         return () => {
             stopCamera();
         };
-    }, [startCamera]);
+    }, []); // 空の依存配列
 
     const captureImage = useCallback(() => {
         if (videoRef.current && canvasRef.current) {
@@ -68,10 +69,10 @@ export default function CapturePage() {
                 const dataUrl = canvasRef.current.toDataURL('image/jpeg', 0.7);
                 localStorage.setItem(IMAGE_KEY, dataUrl);
                 toast.success('画像を保存しました');
-                // window.location.reload();
+                // router.push('/next-page'); // 必要に応じて次のページに遷移
             }
         }
-    }, [stopCamera, router]);
+    }, []); // 空の依存配列
 
     return (
         <div>
