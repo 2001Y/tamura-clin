@@ -23,7 +23,10 @@ export default function CapturePage() {
                 video: { facingMode: "environment" }
             });
             setStream(mediaStream);
-            if (videoRef.current) videoRef.current.srcObject = mediaStream;
+            if (videoRef.current) {
+                videoRef.current.srcObject = stream;
+                videoRef.current.play(); // ビデオの再生を明示的に開始
+            }
 
             stopCameraRef.current = () => {
                 mediaStream.getTracks().forEach(track => track.stop());

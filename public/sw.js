@@ -13,10 +13,15 @@ self.addEventListener('install', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-    event.respondWith(
-        caches.match(event.request)
-            .then((response) => response || fetch(event.request))
-    );
+    if (event.request.url.includes('getUserMedia')) {
+        // カメラアクセスのリクエストはキャッシュせず、常にネットワークから取得
+        event.respondWith(fetch(event.request));
+    } else {
+        event.respondWith(
+            caches.match(event.request)
+                .then((response) => response || fetch(event.request))
+        );
+    }
 });
 
 self.addEventListener('message', (event) => {
