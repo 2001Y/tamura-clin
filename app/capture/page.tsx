@@ -29,6 +29,7 @@ export default function CapturePage() {
                 setStream(null);
             };
         } catch (err) {
+            console.error('カメラアクセスエラー:', err);
             try {
                 const mediaStream = await navigator.mediaDevices.getUserMedia({ video: true });
                 setStream(mediaStream);
@@ -40,7 +41,8 @@ export default function CapturePage() {
                     setStream(null);
                 };
             } catch (fallbackErr) {
-                toast.error('カメラの起動に失敗しました');
+                console.error('内カメラアクセスエラー:', fallbackErr);
+                toast.error('カメラの起動に失敗しました。ブラウザの設定を確認してください。');
             }
         }
     }, []);

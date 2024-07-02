@@ -6,6 +6,9 @@
     "display": "standalone",
     "background_color": "#ffffff",
     "theme_color": "#000000",
+    "permissions": [
+        "camera"
+    ],
     "icons": [
         {
             "src": "https://placehold.co/192x192.png",
