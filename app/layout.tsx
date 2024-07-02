@@ -8,11 +8,11 @@ export const metadata: Metadata = {
   title: "診察券アプリ",
   description: "診察券を管理するPWAアプリ",
   manifest: "/manifest.json",
-  themeColor: "#007bff",
 };
 
 export const viewport: Viewport = {
   viewportFit: 'cover',
+  userScalable: false,
 };
 
 export default function RootLayout({

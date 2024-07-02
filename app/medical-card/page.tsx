@@ -18,8 +18,9 @@ export default function CapturePage() {
 
     const startCamera = useCallback(async () => {
         try {
+            // まず外向きカメラを試す
             const mediaStream = await navigator.mediaDevices.getUserMedia({
-                video: { facingMode: { exact: "environment" } }
+                video: { facingMode: "environment" }
             });
             setStream(mediaStream);
             if (videoRef.current) videoRef.current.srcObject = mediaStream;
@@ -29,20 +30,19 @@ export default function CapturePage() {
                 setStream(null);
             };
         } catch (err) {
-            console.error('カメラアクセスエラー:', err);
             try {
+                // 失敗した場合、制約なしで再試行
                 const mediaStream = await navigator.mediaDevices.getUserMedia({ video: true });
                 setStream(mediaStream);
                 if (videoRef.current) videoRef.current.srcObject = mediaStream;
-                toast.warning('外カメラの起動に失敗しました。内カメラを使用します。');
+                toast.warning('外カメラの起動に失敗しました。内カメラを使用します。（', err);
 
                 stopCameraRef.current = () => {
                     mediaStream.getTracks().forEach(track => track.stop());
                     setStream(null);
                 };
             } catch (fallbackErr) {
-                console.error('内カメラアクセスエラー:', fallbackErr);
-                toast.error('カメラの起動に失敗しました。ブラウザの設定を確認してください。');
+                toast.error('カメラの起動に失敗しました。ブラウザの設定を確認してください。（', fallbackErr);
             }
         }
     }, []);
