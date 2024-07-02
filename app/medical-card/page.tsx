@@ -56,7 +56,7 @@ export default function CapturePage() {
         return () => {
             stopCamera();
         };
-    }, []); // 空の依存配列
+    }, [startCamera, stopCamera]); // 依存配列にstartCameraとstopCameraを追加
 
     const captureImage = useCallback(() => {
         if (videoRef.current && canvasRef.current) {
@@ -72,7 +72,7 @@ export default function CapturePage() {
                 // router.push('/next-page'); // 必要に応じて次のページに遷移
             }
         }
-    }, []); // 空の依存配列
+    }, [videoRef, canvasRef]); // 依存配列にvideoRefとcanvasRefを追加
 
     return (
         <div>
