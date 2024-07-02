@@ -65,7 +65,7 @@ export default function CapturePage() {
                 const dataUrl = canvasRef.current.toDataURL('image/jpeg', 0.7);
                 localStorage.setItem(IMAGE_KEY, dataUrl);
                 toast.success('画像を保存しました');
-                window.location.reload();
+                // window.location.reload();
             }
         }
     }, [stopCamera, router]);

@@ -25,7 +25,7 @@ export function IframeWrapper({ children }: IframeWrapperProps) {
                     border: 'none',
                     opacity: isWebPage ? 1 : 0,
                     pointerEvents: isWebPage ? 'auto' : 'none',
-                    zIndex: -99,
+                    // zIndex: -99,
                 }}
             />
         </>
