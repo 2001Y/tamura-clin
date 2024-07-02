@@ -43,9 +43,9 @@ export default function MedicalCard() {
         <div>
             <Toaster />
             <Link href="/">＜ ホームに戻る</Link>
-            <h1>診察券</h1>
             {cardImage ? (
                 <>
+                    <h1>診察券</h1>
                     <Image
                         src={cardImage}
                         alt="診察券"
@@ -56,11 +56,12 @@ export default function MedicalCard() {
                     />
                     <button onClick={deleteImage}>画像を削除</button>
                 </>
-            ) : (
+            ) : (<>
+                <h1>診察券の写真を撮りましょう</h1>
                 <Link href="/capture">
                     <button>カメラを起動</button>
                 </Link>
-            )}
+            </>)}
         </div>
     );
 }

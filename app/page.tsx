@@ -5,7 +5,7 @@ export default function Home() {
     <main>
       <h1>たむらクリニック</h1>
       <Link href="/medical-card">
-        <button>診察券</button>
+        <button>診察券をみる</button>
       </Link>
     </main>
   );
