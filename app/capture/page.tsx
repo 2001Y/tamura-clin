@@ -73,7 +73,10 @@ export default function CapturePage() {
 
     return (
         <div>
-            <h1>診察券を撮影しましょう</h1>
+            <h1>診察券の登録</h1>
+            <p>
+                当院の診察券の写真を撮影して下さい。
+                </p>
             {stream ? (
                 <>
                     <video ref={videoRef} autoPlay playsInline muted style={{ width: '100%', maxWidth: '500px' }} />
