@@ -82,7 +82,7 @@ export default function CapturePage() {
                     <video ref={videoRef} autoPlay playsInline muted style={{ width: '100%', maxWidth: '500px' }} />
                     <canvas ref={canvasRef} style={{ display: 'none' }} />
                     <button onClick={captureImage}>撮影</button>
-                    <button onClick={() => { stopCamera(); router.push('/medical-card'); }}>キャンセル</button>
+                    <button className="cancel" onClick={() => { stopCamera(); router.push('/medical-card'); }}>キャンセル</button>
                 </>
             ) : (
                 <p>カメラを起動中...</p>

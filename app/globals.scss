@@ -8,6 +8,7 @@ body {
 }
 
 button {
+  display: block;
   padding: 15px 30px;
   font-size: 18px;
   background-color: #4c7aaf;
@@ -17,5 +18,9 @@ button {
   cursor: pointer;
   transition: background-color 0.3s ease;
   margin: auto;
-  min-width: 60%;
+  min-width: 60vw;
+
+  &.cancel {
+    background-color: #8b929a;
+  }
 }
