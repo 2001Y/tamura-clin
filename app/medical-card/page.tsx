@@ -57,12 +57,12 @@ export default function MedicalCard() {
                     <button onClick={deleteImage}>画像を削除</button>
                 </>
             ) : (<>
-                <h1>診察券を登録します</h1>
+                <h1>診察券</h1>
                 <p>
                     一度登録すれば次回以降診察券を持ち運ばずに受診することができます。
                 </p>
                 <Link href="/capture">
-                    <button>登録する</button>
+                    <button>新しく登録する</button>
                 </Link>
             </>)}
         </div>
