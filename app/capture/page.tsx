@@ -6,15 +6,15 @@ import { toast } from 'sonner';
 const IMAGE_KEY = 'medical-card-image';
 
 export default function CapturePage() {
-    const [stream, setStream] = useState<MediaStream | null>(null);
-    const videoRef = useRef<HTMLVideoElement>(null);
-    const canvasRef = useRef<HTMLCanvasElement>(null);
+    const [stream, setStream] = useState(null);
+    const videoRef = useRef(null);
+    const canvasRef = useRef(null);
+    const stopCameraRef = useRef(() => { });
     const router = useRouter();
 
     const stopCamera = useCallback(() => {
-        stream?.getTracks().forEach(track => track.stop());
-        setStream(null);
-    }, [stream]);
+        stopCameraRef.current();
+    }, []);
 
     const startCamera = useCallback(async () => {
         try {
@@ -23,13 +23,22 @@ export default function CapturePage() {
             });
             setStream(mediaStream);
             if (videoRef.current) videoRef.current.srcObject = mediaStream;
+
+            stopCameraRef.current = () => {
+                mediaStream.getTracks().forEach(track => track.stop());
+                setStream(null);
+            };
         } catch (err) {
-            // 'environment' モードが失敗した場合、デフォルトのカメラにフォールバック
             try {
                 const mediaStream = await navigator.mediaDevices.getUserMedia({ video: true });
                 setStream(mediaStream);
                 if (videoRef.current) videoRef.current.srcObject = mediaStream;
                 toast.warning('外カメラの起動に失敗しました。内カメラを使用します。');
+
+                stopCameraRef.current = () => {
+                    mediaStream.getTracks().forEach(track => track.stop());
+                    setStream(null);
+                };
             } catch (fallbackErr) {
                 toast.error('カメラの起動に失敗しました');
             }
@@ -41,13 +50,7 @@ export default function CapturePage() {
         return () => {
             stopCamera();
         };
-    }, [startCamera, stopCamera]);
-
-    useEffect(() => {
-        if (stream && videoRef.current) {
-            videoRef.current.srcObject = stream;
-        }
-    }, [stream]);
+    }, [startCamera]);
 
     const captureImage = useCallback(() => {
         if (videoRef.current && canvasRef.current) {
@@ -56,6 +59,7 @@ export default function CapturePage() {
                 canvasRef.current.width = videoRef.current.videoWidth;
                 canvasRef.current.height = videoRef.current.videoHeight;
                 context.drawImage(videoRef.current, 0, 0, canvasRef.current.width, canvasRef.current.height);
+
                 const dataUrl = canvasRef.current.toDataURL('image/jpeg', 0.7);
                 localStorage.setItem(IMAGE_KEY, dataUrl);
                 toast.success('画像を保存しました');

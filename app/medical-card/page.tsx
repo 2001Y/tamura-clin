@@ -14,39 +14,6 @@ const localStorageHelper = {
     delete: () => localStorage.removeItem(IMAGE_KEY),
 };
 
-/**
- * 画像を圧縮する関数
- * @param file 圧縮する画像ファイル
- * @param maxWidth 最大幅
- * @param quality 圧縮品質 (0-1)
- * @returns 圧縮された画像のData URL
- */
-const compressImage = (file: File, maxWidth: number, quality: number): Promise<string> => {
-    return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = (event) => {
-            const img = new globalThis.Image();
-            img.onload = () => {
-                const canvas = document.createElement('canvas');
-                let { width, height } = img;
-                // アスペクト比を保持しながら、最大幅に合わせてリサイズ
-                if (width > maxWidth) {
-                    height *= maxWidth / width;
-                    width = maxWidth;
-                }
-                canvas.width = width;
-                canvas.height = height;
-                canvas.getContext('2d')?.drawImage(img, 0, 0, width, height);
-                resolve(canvas.toDataURL('image/jpeg', quality));
-            };
-            img.onerror = reject;
-            img.src = event.target?.result as string;
-        };
-        reader.onerror = reject;
-        reader.readAsDataURL(file);
-    });
-};
-
 export default function MedicalCard() {
     // 診察券画像のstate
     const [cardImage, setCardImage] = useState<string | null>(null);
