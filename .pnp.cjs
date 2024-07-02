@@ -36,6 +36,7 @@ const RAW_RUNTIME_STATE =
           ["react-dom", "virtual:635ee743f4c889184c3911e7a48727cba9200015e2ab7739e464feb08f0a9be91745e4825c4a4f27b8db836191dd286f6f189736690df5fb14565866168221d6#npm:18.3.1"],\
           ["sass", "npm:1.77.6"],\
           ["sonner", "virtual:635ee743f4c889184c3911e7a48727cba9200015e2ab7739e464feb08f0a9be91745e4825c4a4f27b8db836191dd286f6f189736690df5fb14565866168221d6#npm:1.5.0"],\
+          ["swr", "virtual:635ee743f4c889184c3911e7a48727cba9200015e2ab7739e464feb08f0a9be91745e4825c4a4f27b8db836191dd286f6f189736690df5fb14565866168221d6#npm:2.2.5"],\
           ["typescript", "patch:typescript@npm%3A5.5.2#optional!builtin<compat/typescript>::version=5.5.2&hash=e012d7"]\
         ],\
         "linkType": "SOFT"\
@@ -2540,6 +2541,30 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["swr", [\
+      ["npm:2.2.5", {\
+        "packageLocation": "../../.yarn/berry/cache/swr-npm-2.2.5-3ab48a667d-10c0.zip/node_modules/swr/",\
+        "packageDependencies": [\
+          ["swr", "npm:2.2.5"]\
+        ],\
+        "linkType": "SOFT"\
+      }],\
+      ["virtual:635ee743f4c889184c3911e7a48727cba9200015e2ab7739e464feb08f0a9be91745e4825c4a4f27b8db836191dd286f6f189736690df5fb14565866168221d6#npm:2.2.5", {\
+        "packageLocation": "./.yarn/__virtual__/swr-virtual-db7668515d/3/.yarn/berry/cache/swr-npm-2.2.5-3ab48a667d-10c0.zip/node_modules/swr/",\
+        "packageDependencies": [\
+          ["swr", "virtual:635ee743f4c889184c3911e7a48727cba9200015e2ab7739e464feb08f0a9be91745e4825c4a4f27b8db836191dd286f6f189736690df5fb14565866168221d6#npm:2.2.5"],\
+          ["@types/react", "npm:18.3.3"],\
+          ["client-only", "npm:0.0.1"],\
+          ["react", "npm:18.3.1"],\
+          ["use-sync-external-store", "virtual:db7668515d6028354e782a52d141bd2cbc5472889f0d7b819fdba263468ea854f1cc67febda9f5f0056d7dc1215d18ad4b576a61de084f3debcf15827c611d12#npm:1.2.2"]\
+        ],\
+        "packagePeers": [\
+          "@types/react",\
+          "react"\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["symbol-tree", [\
       ["npm:3.2.4", {\
         "packageLocation": "../../.yarn/berry/cache/symbol-tree-npm-3.2.4-fe70cdb75b-10c0.zip/node_modules/symbol-tree/",\
@@ -2564,6 +2589,7 @@ const RAW_RUNTIME_STATE =
           ["react-dom", "virtual:635ee743f4c889184c3911e7a48727cba9200015e2ab7739e464feb08f0a9be91745e4825c4a4f27b8db836191dd286f6f189736690df5fb14565866168221d6#npm:18.3.1"],\
           ["sass", "npm:1.77.6"],\
           ["sonner", "virtual:635ee743f4c889184c3911e7a48727cba9200015e2ab7739e464feb08f0a9be91745e4825c4a4f27b8db836191dd286f6f189736690df5fb14565866168221d6#npm:1.5.0"],\
+          ["swr", "virtual:635ee743f4c889184c3911e7a48727cba9200015e2ab7739e464feb08f0a9be91745e4825c4a4f27b8db836191dd286f6f189736690df5fb14565866168221d6#npm:2.2.5"],\
           ["typescript", "patch:typescript@npm%3A5.5.2#optional!builtin<compat/typescript>::version=5.5.2&hash=e012d7"]\
         ],\
         "linkType": "SOFT"\
@@ -2687,6 +2713,28 @@ const RAW_RUNTIME_STATE =
           ["url-parse", "npm:1.5.10"],\
           ["querystringify", "npm:2.2.0"],\
           ["requires-port", "npm:1.0.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["use-sync-external-store", [\
+      ["npm:1.2.2", {\
+        "packageLocation": "../../.yarn/berry/cache/use-sync-external-store-npm-1.2.2-7923c915e1-10c0.zip/node_modules/use-sync-external-store/",\
+        "packageDependencies": [\
+          ["use-sync-external-store", "npm:1.2.2"]\
+        ],\
+        "linkType": "SOFT"\
+      }],\
+      ["virtual:db7668515d6028354e782a52d141bd2cbc5472889f0d7b819fdba263468ea854f1cc67febda9f5f0056d7dc1215d18ad4b576a61de084f3debcf15827c611d12#npm:1.2.2", {\
+        "packageLocation": "./.yarn/__virtual__/use-sync-external-store-virtual-083d36cbd3/3/.yarn/berry/cache/use-sync-external-store-npm-1.2.2-7923c915e1-10c0.zip/node_modules/use-sync-external-store/",\
+        "packageDependencies": [\
+          ["use-sync-external-store", "virtual:db7668515d6028354e782a52d141bd2cbc5472889f0d7b819fdba263468ea854f1cc67febda9f5f0056d7dc1215d18ad4b576a61de084f3debcf15827c611d12#npm:1.2.2"],\
+          ["@types/react", "npm:18.3.3"],\
+          ["react", "npm:18.3.1"]\
+        ],\
+        "packagePeers": [\
+          "@types/react",\
+          "react"\
         ],\
         "linkType": "HARD"\
       }]\
