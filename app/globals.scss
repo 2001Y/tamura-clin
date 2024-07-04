@@ -114,8 +114,10 @@ button {
   align-items: flex-end;
   justify-content: center;
   z-index: 1000;
+  cursor: pointer;
 
   .modal-content {
+    cursor: auto;
     background: #fff;
     padding: 7vw;
     border-radius: 3vw 3vw 0 0;

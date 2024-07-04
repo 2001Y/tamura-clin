@@ -78,13 +78,6 @@ export default function CapturePage() {
         };
     }, []);
 
-    // useEffect(() => {
-    //     startCamera();
-    //     return () => {
-    //         stopCamera();
-    //     };
-    // }, [startCamera, stopCamera]); // 依存配列にstartCameraとstopCameraを追加
-
     const captureImage = useCallback(() => {
         if (videoRef.current && canvasRef.current) {
             const context = canvasRef.current.getContext('2d');
