@@ -90,7 +90,7 @@ export default function CapturePage() {
                     const dataUrl = canvasRef.current.toDataURL('image/jpeg', 0.7);
                     localStorage.setItem(IMAGE_KEY, dataUrl);
                     toast.success('画像を保存しました');
-                    // router.push('/next-page'); // 必要に応じて次のページに遷移
+                    window.location.reload();
                 } catch (error) {
                     toast.error(`画像のキャプチャに失敗しました: ${error.message}`);
                 }

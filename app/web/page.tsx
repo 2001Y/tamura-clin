@@ -10,11 +10,11 @@ export default function Web() {
         return () => {
             setIsWebPage(false);
         };
-    }, [setIsWebPage]);
+    }, []);
 
     return (
         <main>
-            {/* このページの内容は iframe で表示されるため、ここは空でも問題ありません */}
+            あ
         </main>
     );
 }
