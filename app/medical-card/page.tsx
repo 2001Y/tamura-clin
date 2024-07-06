@@ -3,22 +3,24 @@ import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { Toaster, toast } from 'sonner';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 const IMAGE_KEY = 'medical-card-image';
 
 export default function MedicalCardPage() {
     const [cardImage, setCardImage] = useState<string | null>(null);
+    const router = useRouter();
 
     useEffect(() => {
         const isPWA = window.matchMedia('(display-mode: standalone)').matches;
         if (!isPWA) {
-            window.location.href = '/install';
+            router.push('/install');
         }
         const storedImage = localStorage.getItem(IMAGE_KEY);
         if (storedImage) {
             setCardImage(storedImage);
         }
-    }, []);
+    }, [router]);
 
     const deleteImage = () => {
         try {

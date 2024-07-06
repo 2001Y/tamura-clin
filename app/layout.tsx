@@ -3,6 +3,7 @@ import type { Viewport } from 'next'
 import "./globals.scss";
 import Footer from './components/footer';
 import { IframeWrapper } from './components/iframe';
+import Head from 'next/head';
 
 export const metadata: Metadata = {
   title: "診察券アプリ",
@@ -22,6 +23,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja">
+      <Head>
+        <link rel="preload" href="/apple-touch-icon.jpg" as="image" />
+      </Head>
       <body>
         <IframeWrapper>
           {children}
