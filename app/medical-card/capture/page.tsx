@@ -36,11 +36,7 @@ export default function CapturePage() {
                     };
                 }
             } catch (error) {
-                if (error instanceof Error) {
-                    toast.error(`カメラの起動に失敗しました: ${error.message}`);
-                } else {
-                    toast.error('カメラの起動に失敗しました');
-                }
+                toast.error(`カメラの起動に失敗しました: ${error instanceof Error ? error.message : '不明なエラー'}`);
             }
         };
 
@@ -65,11 +61,7 @@ export default function CapturePage() {
                     toast.success('画像を保存しました');
                     router.push('/medical-card');
                 } catch (error) {
-                    if (error instanceof Error) {
-                        toast.error(`画像の保存に失敗しました: ${error.message}`);
-                    } else {
-                        toast.error('画像の保存に失敗しました');
-                    }
+                    toast.error(`画像の保存に失敗しました: ${error instanceof Error ? error.message : '不明なエラー'}`);
                 }
             }
         } else {
@@ -79,7 +71,7 @@ export default function CapturePage() {
 
     const saveToIndexedDB = (dataUrl: string): Promise<void> => {
         return new Promise((resolve, reject) => {
-            const request = indexedDB.open(DB_NAME, 2);
+            const request = indexedDB.open(DB_NAME, 4);
 
             request.onerror = () => reject(new Error('IndexedDBを開けませんでした'));
 
@@ -96,7 +88,9 @@ export default function CapturePage() {
 
             request.onupgradeneeded = (event) => {
                 const db = (event.target as IDBOpenDBRequest).result;
-                db.createObjectStore(STORE_NAME, { keyPath: 'id' });
+                if (!db.objectStoreNames.contains(STORE_NAME)) {
+                    db.createObjectStore(STORE_NAME, { keyPath: 'id' });
+                }
             };
         });
     };

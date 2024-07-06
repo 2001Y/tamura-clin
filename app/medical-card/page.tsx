@@ -18,7 +18,7 @@ export default function MedicalCardPage() {
                 setCardImage(imageDataUrl);
             }
         } catch (error) {
-            toast.error('画像の読み込みに失敗しました（', error);
+            toast.error(`画像の読み込みに失敗しました: ${JSON.stringify(error)}`);
         }
     }, []);
 
@@ -32,13 +32,13 @@ export default function MedicalCardPage() {
             setCardImage(null);
             toast.info('画像を削除しました');
         } catch (error) {
-            toast.error('画像の削除に失敗しました（', error);
+            toast.error(`画像の削除に失敗しました: ${JSON.stringify(error)}`);
         }
     };
 
     return (
         <div>
-            <Toaster position="top-center" />
+            <Toaster position="bottom-center" className="sonner-toaster" />
             <header>
                 <h1>診察券</h1>
             </header>
@@ -51,7 +51,7 @@ export default function MedicalCardPage() {
                             alt="診察券"
                             width={2000}
                             height={3200}
-                            onError={(error) => toast.error('画像の表示に失敗しました（', error)}
+                            onError={(error) => toast.error(`画像の表示に失敗しました: ${JSON.stringify(error)}`)}
                         />
                     </div>
                     <button className="button" onClick={deleteImage}>登録を解除する</button>
@@ -74,7 +74,7 @@ const getImageFromIndexedDB = (): Promise<string | null> => {
     return new Promise((resolve, reject) => {
         const request = indexedDB.open(DB_NAME, 1);
 
-        request.onerror = () => reject(new Error('IndexedDBを開けませんでした'));
+        request.onerror = (event) => reject(new Error(`IndexedDBを開けませんでした: ${JSON.stringify(event)}`));
 
         request.onsuccess = (event) => {
             const db = (event.target as IDBOpenDBRequest).result;
@@ -83,7 +83,7 @@ const getImageFromIndexedDB = (): Promise<string | null> => {
 
             const getRequest = store.get(IMAGE_KEY);
 
-            getRequest.onerror = () => reject(new Error('画像の取得に失敗しました'));
+            getRequest.onerror = (event) => reject(new Error(`画像の取得に失敗しました: ${JSON.stringify(event)}`));
             getRequest.onsuccess = () => {
                 const result = getRequest.result;
                 resolve(result ? result.data : null);
@@ -96,7 +96,7 @@ const deleteImageFromIndexedDB = (): Promise<void> => {
     return new Promise((resolve, reject) => {
         const request = indexedDB.open(DB_NAME, 1);
 
-        request.onerror = () => reject(new Error('IndexedDBを開けませんでした'));
+        request.onerror = (event) => reject(new Error(`IndexedDBを開けませんでした: ${JSON.stringify(event)}`));
 
         request.onsuccess = (event) => {
             const db = (event.target as IDBOpenDBRequest).result;
@@ -105,7 +105,7 @@ const deleteImageFromIndexedDB = (): Promise<void> => {
 
             const deleteRequest = store.delete(IMAGE_KEY);
 
-            deleteRequest.onerror = () => reject(new Error('画像の削除に失敗しました'));
+            deleteRequest.onerror = (event) => reject(new Error(`画像の削除に失敗しました: ${JSON.stringify(event)}`));
             deleteRequest.onsuccess = () => resolve();
         };
     });

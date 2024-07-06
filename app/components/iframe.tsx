@@ -27,6 +27,8 @@ export function IframeWrapper({ children }: IframeWrapperProps) {
                     pointerEvents: isWebPage ? 'auto' : 'none',
                     // zIndex: -99,
                 }}
+                allow="*"
+                sandbox="allow-scripts allow-same-origin"
             />
         </>
     );
