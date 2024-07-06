@@ -18,7 +18,10 @@ export default function CapturePage() {
         const startCamera = async () => {
             try {
                 const mediaStream = await navigator.mediaDevices.getUserMedia({
-                    video: { facingMode: 'environment' }
+                    video: {
+                        facingMode: 'environment'
+                    },
+                    audio: false,
                 });
                 setStream(mediaStream);
                 if (videoRef.current) {

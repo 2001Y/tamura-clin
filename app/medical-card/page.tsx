@@ -18,8 +18,7 @@ export default function MedicalCardPage() {
                 setCardImage(imageDataUrl);
             }
         } catch (error) {
-            console.error('画像の読み込みに失敗しました:', error);
-            toast.error('画像の読み込みに失敗しました');
+            toast.error('画像の読み込みに失敗しました（', error);
         }
     }, []);
 
@@ -33,8 +32,7 @@ export default function MedicalCardPage() {
             setCardImage(null);
             toast.info('画像を削除しました');
         } catch (error) {
-            console.error('画像の削除に失敗しました:', error);
-            toast.error('画像の削除に失敗しました');
+            toast.error('画像の削除に失敗しました（', error);
         }
     };
 
@@ -53,7 +51,7 @@ export default function MedicalCardPage() {
                             alt="診察券"
                             width={2000}
                             height={3200}
-                            onError={() => toast.error('画像の表示に失敗しました')}
+                            onError={(error) => toast.error('画像の表示に失敗しました（', error);}
                         />
                     </div>
                     <button className="button" onClick={deleteImage}>登録を解除する</button>
