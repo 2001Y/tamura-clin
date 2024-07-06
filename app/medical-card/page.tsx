@@ -51,7 +51,7 @@ export default function MedicalCardPage() {
                             alt="診察券"
                             width={2000}
                             height={3200}
-                            onError={(error) => toast.error('画像の表示に失敗しました（', error);}
+                            onError={(error) => toast.error('画像の表示に失敗しました（', error)}
                         />
                     </div>
                     <button className="button" onClick={deleteImage}>登録を解除する</button>
