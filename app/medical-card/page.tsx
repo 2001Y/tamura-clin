@@ -1,50 +1,114 @@
 'use client';
-import { useState, useRef, useCallback, useEffect } from 'react';
-import { Camera } from 'react-camera-pro';
-import { toast, Toaster } from 'sonner';
+import { useState, useEffect, useCallback } from 'react';
+import Image from 'next/image';
+import { Toaster, toast } from 'sonner';
+import Link from 'next/link';
 
 const IMAGE_KEY = 'medical-card-image';
+const DB_NAME = 'MedicalCardDB';
+const STORE_NAME = 'images';
 
-export default function CapturePage() {
-    const [isCameraReady, setIsCameraReady] = useState(false);
-    const camera = useRef(null);
+export default function MedicalCardPage() {
+    const [cardImage, setCardImage] = useState<string | null>(null);
 
-    useEffect(() => {
-        // カメラの準備ができたらステートを更新
-        setIsCameraReady(true);
+    const loadImage = useCallback(async () => {
+        try {
+            const imageDataUrl = await getImageFromIndexedDB();
+            if (imageDataUrl) {
+                setCardImage(imageDataUrl);
+            }
+        } catch (error) {
+            console.error('画像の読み込みに失敗しました:', error);
+            toast.error('画像の読み込みに失敗しました');
+        }
     }, []);
 
-    const captureImage = useCallback(() => {
-        if (camera.current) {
-            try {
-                const dataUrl = camera.current.takePhoto();
-                localStorage.setItem(IMAGE_KEY, dataUrl);
-                toast.success('画像を保存しました');
-                window.location.reload();
-            } catch (error) {
-                toast.error(`画像のキャプチャに失敗しました: ${error.message}`);
-            }
-        } else {
-            toast.error('カメラが準備できていません');
+    useEffect(() => {
+        loadImage();
+    }, [loadImage]);
+
+    const deleteImage = async () => {
+        try {
+            await deleteImageFromIndexedDB();
+            setCardImage(null);
+            toast.info('画像を削除しました');
+        } catch (error) {
+            console.error('画像の削除に失敗しました:', error);
+            toast.error('画像の削除に失敗しました');
         }
-    }, [camera]);
+    };
 
     return (
         <div>
             <Toaster position="top-center" />
-            {isCameraReady ? (
+            <header>
+                <h1>診察券</h1>
+            </header>
+            {cardImage ? (
                 <>
-                    <h1>診察券の登録</h1>
-                    <p>
-                        当院の診察券の写真を撮影して下さい。
-                    </p>
-                    <Camera ref={camera} facingMode="environment" aspectRatio={16 / 9} />
-                    <button onClick={captureImage}>撮影</button>
-                    <button className="cancel" onClick={() => { window.location.reload(); }}>キャンセル</button>
+                    <div className="cardImage_wrapper">
+                        <Image
+                            className='cardImage'
+                            src={cardImage}
+                            alt="診察券"
+                            width={2000}
+                            height={3200}
+                            onError={() => toast.error('画像の表示に失敗しました')}
+                        />
+                    </div>
+                    <button className="button" onClick={deleteImage}>登録を解除する</button>
                 </>
             ) : (
-                <h2>カメラを起動中...</h2>
+                <>
+                    <p>
+                        一度登録すれば次回以降診察券を持ち運ばずに受診することができます。
+                    </p>
+                    <Link href="/medical-card/capture">
+                        <button className="button">新しく登録する</button>
+                    </Link>
+                </>
             )}
         </div>
     );
 }
+
+const getImageFromIndexedDB = (): Promise<string | null> => {
+    return new Promise((resolve, reject) => {
+        const request = indexedDB.open(DB_NAME, 1);
+
+        request.onerror = () => reject(new Error('IndexedDBを開けませんでした'));
+
+        request.onsuccess = (event) => {
+            const db = (event.target as IDBOpenDBRequest).result;
+            const transaction = db.transaction([STORE_NAME], 'readonly');
+            const store = transaction.objectStore(STORE_NAME);
+
+            const getRequest = store.get(IMAGE_KEY);
+
+            getRequest.onerror = () => reject(new Error('画像の取得に失敗しました'));
+            getRequest.onsuccess = () => {
+                const result = getRequest.result;
+                resolve(result ? result.data : null);
+            };
+        };
+    });
+};
+
+const deleteImageFromIndexedDB = (): Promise<void> => {
+    return new Promise((resolve, reject) => {
+        const request = indexedDB.open(DB_NAME, 1);
+
+        request.onerror = () => reject(new Error('IndexedDBを開けませんでした'));
+
+        request.onsuccess = (event) => {
+            const db = (event.target as IDBOpenDBRequest).result;
+            const transaction = db.transaction([STORE_NAME], 'readwrite');
+            const store = transaction.objectStore(STORE_NAME);
+
+            const deleteRequest = store.delete(IMAGE_KEY);
+
+            deleteRequest.onerror = () => reject(new Error('画像の削除に失敗しました'));
+            deleteRequest.onsuccess = () => resolve();
+        };
+    });
+};

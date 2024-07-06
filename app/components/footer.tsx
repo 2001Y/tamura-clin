@@ -4,6 +4,12 @@ import { usePathname } from 'next/navigation';
 
 export default function Footer() {
     const pathname = usePathname();
+
+    // キャプチャページの場合はフッターを表示しない
+    if (pathname === '/medical-card/capture') {
+        return null;
+    }
+
     return (
         <footer>
             <ul>
@@ -41,4 +47,3 @@ export default function Footer() {
         </footer>
     );
 }
-

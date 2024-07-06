@@ -18,6 +18,10 @@ body {
   overflow: hidden;
 }
 
+main {
+  width: 100%;
+}
+
 header,
 footer {
   background-color: #f8f9fa;
@@ -85,7 +89,7 @@ footer {
   }
 }
 
-button {
+.button {
   display: block;
   padding: 15px 30px;
   font-size: 18px;
@@ -96,6 +100,7 @@ button {
   cursor: pointer;
   transition: background-color 0.3s ease;
   margin: auto;
+  margin-top: 1rem;
   min-width: 60vw;
 
   &.cancel {
@@ -125,5 +130,95 @@ button {
     width: 100%;
     overflow: scroll;
     padding-bottom: calc(7vw + env(safe-area-inset-bottom) - 14px);
+  }
+}
+
+h1 {
+  margin-top: 0;
+  margin-bottom: .5rem;
+}
+
+// .camera {
+//   * {
+//     width: fit-content;
+//     height: fit-content;
+//   }
+// }
+
+.camera-container {
+  filter: grayscale(100%) contrast(200%) saturate(200%);
+  aspect-ratio: 10 /16;
+  border-radius: 30px;
+  overflow: hidden;
+  width: 80%;
+  margin: auto;
+  position: relative;
+
+  >* {
+    transform: scale(2);
+    transform-origin: center;
+    width: 50%;
+    height: 50%;
+  }
+}
+
+.close-button {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.shutter-button {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 60px;
+  background: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 10;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: -5px;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  }
+}
+
+.cardImage_wrapper {
+  filter: grayscale(100%) contrast(200%) saturate(200%);
+  transition: all 0.3s ease;
+  border-radius: 30px;
+  overflow: hidden;
+  width: 90%;
+  aspect-ratio: 10 /16;
+  margin: auto;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+
+  .cardImage {
+    width: 200%;
+    height: auto;
+    aspect-ratio: 10 /16;
   }
 }
