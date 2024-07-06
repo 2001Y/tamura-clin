@@ -4,8 +4,6 @@ import { toast, Toaster } from 'sonner';
 import { useRouter } from 'next/navigation';
 
 const IMAGE_KEY = 'medical-card-image';
-const DB_NAME = 'MedicalCardDB';
-const STORE_NAME = 'images';
 
 export default function CapturePage() {
     const [stream, setStream] = useState<MediaStream | null>(null);
@@ -19,7 +17,9 @@ export default function CapturePage() {
             try {
                 const mediaStream = await navigator.mediaDevices.getUserMedia({
                     video: {
-                        facingMode: 'environment'
+                        facingMode: 'environment',
+                        width: { ideal: 4096 },
+                        height: { ideal: 2160 }
                     },
                     audio: false,
                 });
@@ -53,13 +53,36 @@ export default function CapturePage() {
         if (videoRef.current && canvasRef.current) {
             const context = canvasRef.current.getContext('2d');
             if (context) {
-                context.drawImage(videoRef.current, 0, 0, canvasSize.width, canvasSize.height);
-                const dataUrl = canvasRef.current.toDataURL('image/png');
+
+                // 2倍に拡大した中央部分のみをキャプチャ
+                const sourceWidth = canvasSize.width / 2;
+                const sourceHeight = canvasSize.height / 2;
+                const sourceX = (canvasSize.width - sourceWidth) / 2;
+                const sourceY = (canvasSize.height - sourceHeight) / 2;
+
+                context.drawImage(
+                    videoRef.current,
+                    sourceX, sourceY, sourceWidth, sourceHeight,
+                    0, 0, canvasSize.width, canvasSize.height
+                );
+
+                // グレースケール変換とコントラスト調整
+                const imageData = context.getImageData(0, 0, canvasSize.width, canvasSize.height);
+                const data = imageData.data;
+                for (let i = 0; i < data.length; i += 4) {
+                    const gray = 0.2989 * data[i] + 0.5870 * data[i + 1] + 0.1140 * data[i + 2];
+                    const adjustedGray = Math.min(255, Math.max(0, (gray - 128) * 2 + 128));
+                    data[i] = data[i + 1] = data[i + 2] = adjustedGray;
+                }
+                context.putImageData(imageData, 0, 0);
+
+                // JPEG形式で保存（品質は0.7に設定）
+                const dataUrl = canvasRef.current.toDataURL('image/jpeg', 0.7);
 
                 try {
-                    await saveToIndexedDB(dataUrl);
+                    localStorage.setItem(IMAGE_KEY, dataUrl);
                     toast.success('画像を保存しました');
-                    router.push('/medical-card');
+                    window.location.href = '/medical-card';
                 } catch (error) {
                     toast.error(`画像の保存に失敗しました: ${error instanceof Error ? error.message : '不明なエラー'}`);
                 }
@@ -69,36 +92,10 @@ export default function CapturePage() {
         }
     };
 
-    const saveToIndexedDB = (dataUrl: string): Promise<void> => {
-        return new Promise((resolve, reject) => {
-            const request = indexedDB.open(DB_NAME, 4);
-
-            request.onerror = () => reject(new Error('IndexedDBを開けませんでした'));
-
-            request.onsuccess = (event) => {
-                const db = (event.target as IDBOpenDBRequest).result;
-                const transaction = db.transaction([STORE_NAME], 'readwrite');
-                const store = transaction.objectStore(STORE_NAME);
-
-                const saveRequest = store.put({ id: IMAGE_KEY, data: dataUrl });
-
-                saveRequest.onerror = () => reject(new Error('画像の保存に失敗しました'));
-                saveRequest.onsuccess = () => resolve();
-            };
-
-            request.onupgradeneeded = (event) => {
-                const db = (event.target as IDBOpenDBRequest).result;
-                if (!db.objectStoreNames.contains(STORE_NAME)) {
-                    db.createObjectStore(STORE_NAME, { keyPath: 'id' });
-                }
-            };
-        });
-    };
-
     return (
         <main>
             <Toaster position="top-center" />
-            <button className="close-button" onClick={() => router.push('/medical-card')}>
+            <button className="close-button" onClick={() => window.location.href = '/medical-card'}>
                 ✕
             </button>
             <h1>診察券の登録</h1>

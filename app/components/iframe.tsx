@@ -27,8 +27,8 @@ export function IframeWrapper({ children }: IframeWrapperProps) {
                     pointerEvents: isWebPage ? 'auto' : 'none',
                     // zIndex: -99,
                 }}
-                allow="*"
-                sandbox="allow-scripts allow-same-origin"
+                allow="accelerometer; autoplay; camera; encrypted-media; fullscreen; geolocation; gyroscope; microphone; midi; payment; picture-in-picture; usb; vr"
+                sandbox="allow-scripts allow-same-origin allow-popups allow-forms allow-modals allow-orientation-lock allow-pointer-lock allow-presentation allow-top-navigation"
             />
         </>
     );

@@ -89,15 +89,26 @@ footer {
   }
 }
 
-.button {
+button {
+  appearance: none;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
+  cursor: pointer;
   display: block;
+}
+
+.button {
   padding: 15px 30px;
   font-size: 18px;
   background-color: #4c7aaf;
   color: white;
-  border: none;
   border-radius: 5px;
-  cursor: pointer;
   transition: background-color 0.3s ease;
   margin: auto;
   margin-top: 1rem;
@@ -153,6 +164,7 @@ h1 {
   width: 80%;
   margin: auto;
   position: relative;
+  background: #000;
 
   >* {
     transform: scale(2);
@@ -170,8 +182,8 @@ h1 {
   color: white;
   border: none;
   border-radius: 50%;
-  width: 40px;
-  height: 40px;
+  width: 10vw;
+  aspect-ratio: 1/1;
   font-size: 20px;
   display: flex;
   align-items: center;
@@ -204,22 +216,40 @@ h1 {
 }
 
 .cardImage_wrapper {
-  filter: grayscale(100%) contrast(200%) saturate(200%);
   transition: all 0.3s ease;
   border-radius: 30px;
   overflow: hidden;
-  width: 90%;
+  width: 100%;
   aspect-ratio: 10 /16;
   margin: auto;
-  display: flex;
-  flex-flow: column;
-  justify-content: center;
-  align-items: center;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  position: relative;
 
   .cardImage {
-    width: 200%;
+    width: 100%;
     height: auto;
-    aspect-ratio: 10 /16;
+  }
+
+  .deleteImage_button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: #ff4d4d;
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 50%;
+    padding: .7em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .5em;
+
+    svg {
+      width: 24px;
+      height: 24px;
+      stroke: #ff4d4d;
+    }
   }
 }
 

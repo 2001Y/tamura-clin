@@ -1,6 +1,16 @@
+'use client';
+
+import { useEffect } from 'react';
 import Link from 'next/link';
 
 export default function Home() {
+  useEffect(() => {
+    const isPWA = window.matchMedia('(display-mode: standalone)').matches;
+    if (!isPWA) {
+      window.location.href = '/install';
+    }
+  }, []);
+
   return (
     <main>
       <header>
