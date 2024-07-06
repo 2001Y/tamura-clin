@@ -107,8 +107,8 @@ export default function MedicalCardPage() {
                         className='cardImage'
                         src={cardImage}
                         alt="診察券"
-                        width={2000}
-                        height={3200}
+                        width={4000}
+                        height={6400}
                         onError={(error) => toast.error(`画像の表示に失敗しました: ${JSON.stringify(error)}`)}
                     />
                     <button className="deleteImage_button" onClick={deleteImage}>
