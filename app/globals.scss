@@ -18,10 +18,6 @@ body {
   overflow: hidden;
 }
 
-main {
-  width: 100%;
-}
-
 header,
 footer {
   background-color: #f8f9fa;
@@ -30,16 +26,29 @@ footer {
   width: 100vw;
   position: fixed;
   left: 0;
+
+  @media (orientation: landscape) {
+    width: 100vh;
+  }
 }
 
 header {
   padding: 2vw 7vw;
   top: 0;
+
+  @media (orientation: landscape) {
+    padding: 2vh 7vh;
+    padding-top: env(safe-area-inset-left);
+  }
 }
 
 footer {
   bottom: 0;
   padding-bottom: calc(env(safe-area-inset-bottom) - 14px);
+
+  @media (orientation: landscape) {
+    padding-bottom: calc(env(safe-area-inset-left) - 14px);
+  }
 
   ul {
     width: 100%;
@@ -113,6 +122,10 @@ button {
   margin: auto;
   margin-top: 1rem;
   min-width: 60vw;
+
+  @media (orientation: landscape) {
+    min-width: 60vh;
+  }
 
   &.cancel {
     background-color: #8b929a;
@@ -255,4 +268,28 @@ h1 {
 
 .sonner-toaster {
   bottom: calc(env(safe-area-inset-bottom) + 5.5rem) !important;
+}
+
+@media (orientation: landscape) {
+  html {
+    transform: rotate(-90deg);
+    transform-origin: left top;
+    width: 100vh !important;
+    height: 100vw !important;
+    overflow-x: hidden;
+    position: absolute;
+    top: 100%;
+    left: 0;
+
+    body {
+      width: 100vh !important;
+      height: 100vw !important;
+    }
+  }
+}
+
+iframe {
+  @media (orientation: landscape) {
+    margin-top: env(safe-area-inset-left);
+  }
 }

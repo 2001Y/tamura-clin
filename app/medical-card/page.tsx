@@ -41,14 +41,6 @@ export default function MedicalCardPage() {
             {cardImage ? (
                 <div
                     className="cardImage_wrapper"
-                    onTouchStart={handleTouchStart}
-                    onTouchMove={handleTouchMove}
-                    onTouchEnd={handleTouchEnd}
-                    style={{
-                        transform: `scale(${scale}) translate(${position.x}px, ${position.y}px)`,
-                        transformOrigin: '0 0',
-                        transition: 'transform 0.1s ease-out'
-                    }}
                 >
                     <Image
                         className='cardImage'
