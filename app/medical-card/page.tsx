@@ -32,59 +32,6 @@ export default function MedicalCardPage() {
         }
     };
 
-    const imageRef = useRef<HTMLImageElement>(null);
-    const [scale, setScale] = useState(1);
-    const [position, setPosition] = useState({ x: 0, y: 0 });
-    const startPointRef = useRef({ x: 0, y: 0, distance: 0 });
-    const containerRef = useRef<HTMLDivElement>(null);
-
-    useEffect(() => {
-        // 画像の中央位置を計算
-        if (containerRef.current) {
-            const containerRect = containerRef.current.getBoundingClientRect();
-            const centerX = (containerRect.width - 2000) / 2; // 2000は画像の幅
-            const centerY = (containerRect.height - 3200) / 2; // 3200は画像の高さ
-            setPosition({ x: centerX, y: centerY });
-        }
-    }, [cardImage, router]);
-
-    const handleTouchStart = (e: React.TouchEvent) => {
-        if (e.touches.length === 2) {
-            const touch1 = e.touches[0];
-            const touch2 = e.touches[1];
-            const midX = (touch1.clientX + touch2.clientX) / 2;
-            const midY = (touch1.clientY + touch2.clientY) / 2;
-            const distance = Math.hypot(touch1.clientX - touch2.clientX, touch1.clientY - touch2.clientY);
-            startPointRef.current = { x: midX, y: midY, distance };
-        }
-    };
-
-    const handleTouchMove = (e: React.TouchEvent) => {
-        if (e.touches.length === 2) {
-            e.preventDefault();
-            const touch1 = e.touches[0];
-            const touch2 = e.touches[1];
-            const midX = (touch1.clientX + touch2.clientX) / 2;
-            const midY = (touch1.clientY + touch2.clientY) / 2;
-            const distance = Math.hypot(touch1.clientX - touch2.clientX, touch1.clientY - touch2.clientY);
-
-            const newScale = Math.min(Math.max(scale * (distance / startPointRef.current.distance), 1), 3);
-
-            // 拡大開始時の中点を基準に位置を調整
-            const scaleChange = newScale / scale;
-            const newX = startPointRef.current.x - (startPointRef.current.x - position.x) * scaleChange;
-            const newY = startPointRef.current.y - (startPointRef.current.y - position.y) * scaleChange;
-
-            setScale(newScale);
-            setPosition({ x: newX, y: newY });
-        }
-    };
-
-    const handleTouchEnd = () => {
-        setScale(1);
-        setPosition({ x: 0, y: 0 });
-    };
-
     return (
         <div>
             <Toaster position="bottom-center" className="sonner-toaster" />

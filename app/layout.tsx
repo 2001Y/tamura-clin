@@ -14,6 +14,7 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   viewportFit: 'cover',
   userScalable: false,
+  orientation: 'portrait',
 };
 
 export default function RootLayout({

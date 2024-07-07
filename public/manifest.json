@@ -6,6 +6,7 @@
     "display": "standalone",
     "background_color": "#ffffff",
     "themeColor": "#f8f9fa",
+    "orientation": "portrait",
     "permissions": [
         "camera"
     ],
